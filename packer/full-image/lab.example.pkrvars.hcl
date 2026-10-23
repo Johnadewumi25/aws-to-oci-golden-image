@@ -1,0 +1,5 @@
+region            = "us-west-1"
+source_ami_id     = "ami-replace-with-current-canonical-ubuntu-24-04-amd64"
+subnet_id         = "subnet-replace"
+security_group_id = "sg-replace"
+build_version     = "2026.10.22.1"
