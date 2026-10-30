@@ -43,8 +43,8 @@ Terraform configuration validation and formatting passed. Packer syntax and
 formatting passed, followed by the real successful AWS build. Terraform provider
 checksums were obtained from the official registry for Windows and Linux.
 
-The GitHub Actions workflow was updated for these sources; no remote CI run or
-production certification is claimed.
+The published sample includes the nine guard tests. A remote CI run or
+production certification is not claimed.
 
 ## Local evidence
 
@@ -63,5 +63,7 @@ the original AWS source report stored outside the imported VM, and verify the
 public HTTP response. Credential files and private keys are excluded from these
 reports and from the source-only sample package.
 
-The OCI VM and retained cloud artifacts remain available and can incur charges.
+A successful run retains the OCI VM and cloud image artifacts until they are
+removed, and those resources can incur charges. This record describes the
+validated run; it does not assert that its cloud resources are currently running.
 See [the migration walkthrough](full-image-migration.md) for cleanup boundaries.
