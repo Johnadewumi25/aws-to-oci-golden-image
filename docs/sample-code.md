@@ -5,6 +5,10 @@ the [article](article-full-image-aws-to-oci.md). It builds one fresh image in AW
 exports it as VMDK, transfers and imports that disk into OCI, and verifies the
 running server. It does not perform a second OS build in OCI.
 
+See the [architecture diagram](images/aws-to-oci-architecture.png) before starting.
+The flow includes one temporary AWS builder and one OCI target VM. The AWS
+builder is removed after capture; the AMI remains available for export.
+
 ## Download and prerequisites
 
 Clone `https://github.com/Johnadewumi25/aws-to-oci-golden-image.git`, or select
@@ -132,6 +136,22 @@ Your configuration, database records, selected packages and web content should
 match the original AWS report. To prove the runtime is OCI, compare the instance
 OCID returned by OCI metadata with the one in your Terraform output and OCI Console.
 Use HTTP for the sample smoke test; the lab does not configure an HTTPS listener.
+
+Success is recorded in `.artifacts/full-image-result.json` as `"status": "passed"`,
+with every value under `checks` set to `true`. An AMI ID, accepted export task or
+uploaded VMDK by itself does not complete the migration.
+
+## If you get stuck
+
+| Symptom | What to check |
+| --- | --- |
+| `aws`, `oci`, `terraform`, `packer` or `python` is not recognized | Install that tool, open a new terminal and check that its executable is on PATH |
+| Authentication or permission failure | Verify the local profiles above and permissions for the failed action; resolve the error before continuing |
+| Example values or missing-variable errors | Edit all copied variable files; use matching regions and build versions |
+| Export fails | Run `python scripts/full-image/pipeline.py status`; inspect its final status message and the export eligibility checks |
+| Import fails or E5 capacity is unavailable | Inspect the OCI image work request, shape availability and tenancy limits; preserve the export and reports while diagnosing |
+| Website or SSH times out | Check the Terraform public IP, instance state, cloud-init completion and that `admin_cidr` still matches your current public IPv4 `/32` |
+| No AWS instance appears after a successful build | This is expected: Packer removed its temporary builder; look under EC2 → Images → AMIs in the build region |
 
 ## Source files and cleanup
 
