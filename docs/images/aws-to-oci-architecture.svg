@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1580" viewBox="0 0 1920 1580" role="img" aria-labelledby="title desc">
+<title id="title">AWS to OCI full boot-disk image migration</title>
+<desc id="desc">A temporary Ubuntu EC2 builder in an AWS VPC is captured as an AMI and EBS snapshot. VM Import/Export exports a VMDK into private S3. A Windows operator computer downloads, uploads into private OCI Object Storage and verifies the complete file by SHA-256 readback. OCI imports a custom image and launches one VM in a separate VCN. Packages, configuration, SQLite records, HTTP and OCI metadata are verified. The AWS builder is removed after capture. Networking and cloud identity are created separately.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#1978B8"/></marker></defs>
+<rect width="1920" height="1580" fill="#F6F9FC"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<rect x="48" y="36" width="1824" height="156" rx="22" fill="#173957" stroke="none" stroke-width="2"/>
+<text x="960" y="107" font-size="58" fill="white" font-weight="700" text-anchor="middle">AWS TO OCI</text>
+<text x="960" y="156" font-size="30" fill="#E8F3FC" font-weight="400" text-anchor="middle">Build once. Move the full Ubuntu boot disk.</text>
+<text x="960" y="221" font-size="23" fill="#4E687B" font-weight="400" text-anchor="middle">Validated lab architecture  •  Ubuntu 24.04 x86_64  •  Single boot disk</text>
+<rect x="48" y="246" width="624" height="858" rx="22" fill="white" stroke="#ABC6DC" stroke-width="2"/>
+<rect x="1248" y="246" width="624" height="858" rx="22" fill="white" stroke="#E0BBB5" stroke-width="2"/>
+<rect x="48" y="246" width="624" height="72" rx="20" fill="#FFF2DF" stroke="none" stroke-width="2"/>
+<rect x="1248" y="246" width="624" height="72" rx="20" fill="#FCEEEB" stroke="none" stroke-width="2"/>
+<text x="80" y="292" font-size="34" fill="#D77B0A" font-weight="700" text-anchor="start">AWS</text>
+<text x="638" y="290" font-size="22" fill="#18374C" font-weight="700" text-anchor="end">SOURCE ENVIRONMENT</text>
+<text x="1280" y="292" font-size="34" fill="#C74634" font-weight="700" text-anchor="start">OCI</text>
+<text x="1838" y="290" font-size="22" fill="#18374C" font-weight="700" text-anchor="end">DESTINATION ENVIRONMENT</text>
+<rect x="80" y="344" width="560" height="272" rx="14" fill="#F6FBFF" stroke="#66A5CE" stroke-width="2" stroke-dasharray="9 7"/>
+<rect x="1280" y="344" width="560" height="272" rx="14" fill="#FFFAF8" stroke="#D98C80" stroke-width="2" stroke-dasharray="9 7"/>
+<text x="104" y="383" font-size="25" fill="#1978B8" font-weight="700" text-anchor="start">VPC + public subnet</text>
+<text x="1304" y="383" font-size="25" fill="#C74634" font-weight="700" text-anchor="start">VCN + public subnet</text>
+<rect x="108" y="406" width="504" height="157" rx="13" fill="white" stroke="#EDD0A5" stroke-width="2"/>
+<rect x="132" y="428" width="64" height="64" rx="12" fill="#D77B0A" stroke="none" stroke-width="2"/>
+<rect x="150" y="446" width="28" height="28" rx="3" fill="none" stroke="white" stroke-width="2"/>
+<line x1="156" y1="438" x2="156" y2="446" stroke="white" stroke-width="2"/>
+<line x1="156" y1="474" x2="156" y2="482" stroke="white" stroke-width="2"/>
+<line x1="142" y1="452" x2="150" y2="452" stroke="white" stroke-width="2"/>
+<line x1="178" y1="452" x2="186" y2="452" stroke="white" stroke-width="2"/>
+<line x1="171" y1="438" x2="171" y2="446" stroke="white" stroke-width="2"/>
+<line x1="171" y1="474" x2="171" y2="482" stroke="white" stroke-width="2"/>
+<line x1="142" y1="467" x2="150" y2="467" stroke="white" stroke-width="2"/>
+<line x1="178" y1="467" x2="186" y2="467" stroke="white" stroke-width="2"/>
+<text x="214" y="445" font-size="29" fill="#18374C" font-weight="700" text-anchor="start">Temporary EC2 builder</text>
+<text x="214" y="481" font-size="23" fill="#4E687B" font-weight="400" text-anchor="start">Ubuntu 24.04  •  t2.small</text>
+<text x="132" y="534" font-size="23" fill="#18374C" font-weight="400" text-anchor="start">OS + nginx + config + website + SQLite</text>
+<text x="360" y="593" font-size="21" fill="#4E687B" font-weight="400" text-anchor="middle">BIOS boot  •  Generic kernel  •  Virtio drivers</text>
+<rect x="1308" y="406" width="504" height="157" rx="13" fill="white" stroke="#E7B7AF" stroke-width="2"/>
+<rect x="1332" y="428" width="64" height="64" rx="12" fill="#C74634" stroke="none" stroke-width="2"/>
+<rect x="1350" y="446" width="28" height="28" rx="3" fill="none" stroke="white" stroke-width="2"/>
+<line x1="1356" y1="438" x2="1356" y2="446" stroke="white" stroke-width="2"/>
+<line x1="1356" y1="474" x2="1356" y2="482" stroke="white" stroke-width="2"/>
+<line x1="1342" y1="452" x2="1350" y2="452" stroke="white" stroke-width="2"/>
+<line x1="1378" y1="452" x2="1386" y2="452" stroke="white" stroke-width="2"/>
+<line x1="1371" y1="438" x2="1371" y2="446" stroke="white" stroke-width="2"/>
+<line x1="1371" y1="474" x2="1371" y2="482" stroke="white" stroke-width="2"/>
+<line x1="1342" y1="467" x2="1350" y2="467" stroke="white" stroke-width="2"/>
+<line x1="1378" y1="467" x2="1386" y2="467" stroke="white" stroke-width="2"/>
+<text x="1414" y="445" font-size="27" fill="#18374C" font-weight="700" text-anchor="start">Imported OCI compute VM</text>
+<text x="1414" y="481" font-size="23" fill="#4E687B" font-weight="400" text-anchor="start">E5 Flex  •  1 OCPU / 4 GB</text>
+<text x="1332" y="534" font-size="22" fill="#18374C" font-weight="400" text-anchor="start">Original OS, packages, files and database</text>
+<text x="1560" y="593" font-size="21" fill="#4E687B" font-weight="400" text-anchor="middle">Oracle metadata confirms the running instance</text>
+<line x1="360" y1="619" x2="360" y2="676" stroke="#1978B8" stroke-width="4" marker-end="url(#arrow)"/>
+<rect x="185.0" y="627" width="350" height="38" rx="8" fill="#F6F9FC" stroke="none" stroke-width="2"/>
+<text x="360" y="654" font-size="23" fill="#4E687B" font-weight="400" text-anchor="middle">Reboot → verify → capture</text>
+<line x1="1560" y1="677" x2="1560" y2="623" stroke="#1978B8" stroke-width="4" marker-end="url(#arrow)"/>
+<rect x="1375.0" y="627" width="370" height="38" rx="8" fill="#F6F9FC" stroke="none" stroke-width="2"/>
+<text x="1560" y="654" font-size="23" fill="#4E687B" font-weight="400" text-anchor="middle">Launch the imported image</text>
+<rect x="108" y="688" width="504" height="118" rx="13" fill="#FFF9EF" stroke="#EDD0A5" stroke-width="2"/>
+<rect x="132" y="714" width="64" height="64" rx="12" fill="#D77B0A" stroke="none" stroke-width="2"/>
+<circle cx="164" cy="746" r="19" fill="none" stroke="white" stroke-width="2.5"/><circle cx="164" cy="746" r="5" fill="white"/>
+<text x="214" y="734" font-size="30" fill="#18374C" font-weight="700" text-anchor="start">AMI + EBS snapshot</text>
+<text x="214" y="771" font-size="22" fill="#4E687B" font-weight="400" text-anchor="start">One captured 16 GiB boot disk</text>
+<rect x="1308" y="688" width="504" height="118" rx="13" fill="#FFF5F2" stroke="#E7B7AF" stroke-width="2"/>
+<rect x="1332" y="714" width="64" height="64" rx="12" fill="#C74634" stroke="none" stroke-width="2"/>
+<circle cx="1364" cy="746" r="19" fill="none" stroke="white" stroke-width="2.5"/><circle cx="1364" cy="746" r="5" fill="white"/>
+<text x="1414" y="734" font-size="30" fill="#18374C" font-weight="700" text-anchor="start">OCI custom image</text>
+<text x="1414" y="771" font-size="22" fill="#4E687B" font-weight="400" text-anchor="start">BIOS + paravirtualized devices</text>
+<line x1="360" y1="809" x2="360" y2="882" stroke="#1978B8" stroke-width="4" marker-end="url(#arrow)"/>
+<rect x="220.0" y="825" width="280" height="38" rx="8" fill="#F6F9FC" stroke="none" stroke-width="2"/>
+<text x="360" y="852" font-size="23" fill="#4E687B" font-weight="400" text-anchor="middle">VM Import/Export</text>
+<line x1="1560" y1="882" x2="1560" y2="816" stroke="#1978B8" stroke-width="4" marker-end="url(#arrow)"/>
+<rect x="1445.0" y="825" width="230" height="38" rx="8" fill="#F6F9FC" stroke="none" stroke-width="2"/>
+<text x="1560" y="852" font-size="23" fill="#4E687B" font-weight="400" text-anchor="middle">Import VMDK</text>
+<rect x="108" y="895" width="504" height="150" rx="13" fill="#F0F8FE" stroke="#9AC4DE" stroke-width="2"/>
+<rect x="132" y="923" width="64" height="64" rx="12" fill="#1978B8" stroke="none" stroke-width="2"/>
+<path d="M 149 943 V 968 C 149 976, 179 976, 179 968 V 943" fill="none" stroke="white" stroke-width="2.5"/>
+<ellipse cx="164" cy="943" rx="15" ry="6" fill="none" stroke="white" stroke-width="2.5"/>
+<path d="M 149 955 C 149 963, 179 963, 179 955" fill="none" stroke="white" stroke-width="2.5"/>
+<text x="214" y="944" font-size="29" fill="#18374C" font-weight="700" text-anchor="start">Private Amazon S3</text>
+<text x="214" y="983" font-size="23" fill="#4E687B" font-weight="400" text-anchor="start">VMDK export  •  SSE-S3</text>
+<text x="360" y="1082" font-size="21" fill="#4E687B" font-weight="400" text-anchor="middle">Temporary EC2 builder removed after capture</text>
+<rect x="1308" y="895" width="504" height="150" rx="13" fill="#FFF5F2" stroke="#E7B7AF" stroke-width="2"/>
+<rect x="1332" y="923" width="64" height="64" rx="12" fill="#C74634" stroke="none" stroke-width="2"/>
+<path d="M 1349 943 V 968 C 1349 976, 1379 976, 1379 968 V 943" fill="none" stroke="white" stroke-width="2.5"/>
+<ellipse cx="1364" cy="943" rx="15" ry="6" fill="none" stroke="white" stroke-width="2.5"/>
+<path d="M 1349 955 C 1349 963, 1379 963, 1379 955" fill="none" stroke="white" stroke-width="2.5"/>
+<text x="1414" y="944" font-size="27" fill="#18374C" font-weight="700" text-anchor="start">Private Object Storage</text>
+<text x="1414" y="983" font-size="23" fill="#4E687B" font-weight="400" text-anchor="start">Verified VMDK object</text>
+<text x="1560" y="1082" font-size="21" fill="#4E687B" font-weight="400" text-anchor="middle">VCN and instance identity created for OCI</text>
+<text x="960" y="334" font-size="22" fill="#1978B8" font-weight="700" text-anchor="middle">MIGRATION ARTIFACT</text>
+<path d="M 910 364 H 983 L 1015 397 V 486 H 910 Z M 983 364 V 397 H 1015" fill="white" stroke="#1978B8" stroke-width="6" stroke-linejoin="round"/>
+<text x="962" y="460" font-size="26" fill="#1978B8" font-weight="700" text-anchor="middle">.vmdk</text>
+<text x="960" y="536" font-size="25" fill="#18374C" font-weight="700" text-anchor="middle">OS + nginx + configuration</text>
+<text x="960" y="571" font-size="24" fill="#4E687B" font-weight="400" text-anchor="middle">Website + SQLite database</text>
+<path d="M 738 618 H 1096 V 594 L 1186 648 L 1096 702 V 677 H 738 Z" fill="#1978B8"/>
+<text x="960" y="738" font-size="24" fill="#18374C" font-weight="700" text-anchor="middle">The AWS disk is imported into OCI</text>
+<text x="960" y="773" font-size="22" fill="#4E687B" font-weight="400" text-anchor="middle">No second operating-system build</text>
+<rect x="728" y="831" width="464" height="214" rx="16" fill="#EDF6FC" stroke="#9AC4DE" stroke-width="2"/>
+<text x="960" y="876" font-size="28" fill="#18374C" font-weight="700" text-anchor="middle">Windows operator computer</text>
+<text x="960" y="916" font-size="23" fill="#4E687B" font-weight="400" text-anchor="middle">Packer + Terraform + cloud CLIs</text>
+<text x="960" y="956" font-size="22" fill="#18374C" font-weight="400" text-anchor="middle">Download → upload → OCI readback</text>
+<text x="960" y="1002" font-size="23" fill="#23845D" font-weight="700" text-anchor="middle">Full-file SHA-256 must match</text>
+<line x1="617" y1="971" x2="713" y2="971" stroke="#1978B8" stroke-width="5" marker-end="url(#arrow)"/>
+<line x1="1198" y1="971" x2="1293" y2="971" stroke="#1978B8" stroke-width="5" marker-end="url(#arrow)"/>
+<rect x="48" y="1140" width="1824" height="65" rx="13" fill="#E9F0F6" stroke="none" stroke-width="2"/>
+<text x="960" y="1181" font-size="25" fill="#18374C" font-weight="400" text-anchor="middle">SSH + HTTP: operator IPv4 /32 only. Credentials and private keys stay on the operator computer.</text>
+<rect x="48.0" y="1240" width="290.6666666666667" height="180" rx="14" fill="white" stroke="#C6D8E6" stroke-width="2"/>
+<circle cx="85.0" cy="1273" r="21" fill="#1978B8"/>
+<text x="85.0" y="1281" font-size="24" fill="white" font-weight="700" text-anchor="middle">1</text>
+<text x="120.0" y="1281" font-size="18" fill="#4E687B" font-weight="700" text-anchor="start">STAGE 1</text>
+<text x="68.0" y="1323" font-size="25" fill="#18374C" font-weight="700" text-anchor="start">Prepare</text>
+<text x="68.0" y="1360" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">Terraform creates storage</text>
+<text x="68.0" y="1390" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">and network in each cloud.</text>
+<rect x="354.6666666666667" y="1240" width="290.6666666666667" height="180" rx="14" fill="white" stroke="#C6D8E6" stroke-width="2"/>
+<circle cx="391.6666666666667" cy="1273" r="21" fill="#1978B8"/>
+<text x="391.6666666666667" y="1281" font-size="24" fill="white" font-weight="700" text-anchor="middle">2</text>
+<text x="426.6666666666667" y="1281" font-size="18" fill="#4E687B" font-weight="700" text-anchor="start">STAGE 2</text>
+<text x="374.6666666666667" y="1323" font-size="25" fill="#18374C" font-weight="700" text-anchor="start">Build &amp; capture</text>
+<text x="374.6666666666667" y="1360" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">Packer reboots Ubuntu</text>
+<text x="374.6666666666667" y="1390" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">and captures an AMI.</text>
+<rect x="661.3333333333334" y="1240" width="290.6666666666667" height="180" rx="14" fill="white" stroke="#C6D8E6" stroke-width="2"/>
+<circle cx="698.3333333333334" cy="1273" r="21" fill="#1978B8"/>
+<text x="698.3333333333334" y="1281" font-size="24" fill="white" font-weight="700" text-anchor="middle">3</text>
+<text x="733.3333333333334" y="1281" font-size="18" fill="#4E687B" font-weight="700" text-anchor="start">STAGE 3</text>
+<text x="681.3333333333334" y="1323" font-size="25" fill="#18374C" font-weight="700" text-anchor="start">Export VMDK</text>
+<text x="681.3333333333334" y="1360" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">VM Import/Export writes</text>
+<text x="681.3333333333334" y="1390" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">the boot disk into S3.</text>
+<rect x="968.0" y="1240" width="290.6666666666667" height="180" rx="14" fill="white" stroke="#C6D8E6" stroke-width="2"/>
+<circle cx="1005.0" cy="1273" r="21" fill="#1978B8"/>
+<text x="1005.0" y="1281" font-size="24" fill="white" font-weight="700" text-anchor="middle">4</text>
+<text x="1040.0" y="1281" font-size="18" fill="#4E687B" font-weight="700" text-anchor="start">STAGE 4</text>
+<text x="988.0" y="1323" font-size="25" fill="#18374C" font-weight="700" text-anchor="start">Transfer &amp; verify</text>
+<text x="988.0" y="1360" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">Upload into OCI; read back</text>
+<text x="988.0" y="1390" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">and compare SHA-256.</text>
+<rect x="1274.6666666666667" y="1240" width="290.6666666666667" height="180" rx="14" fill="white" stroke="#C6D8E6" stroke-width="2"/>
+<circle cx="1311.6666666666667" cy="1273" r="21" fill="#1978B8"/>
+<text x="1311.6666666666667" y="1281" font-size="24" fill="white" font-weight="700" text-anchor="middle">5</text>
+<text x="1346.6666666666667" y="1281" font-size="18" fill="#4E687B" font-weight="700" text-anchor="start">STAGE 5</text>
+<text x="1294.6666666666667" y="1323" font-size="25" fill="#18374C" font-weight="700" text-anchor="start">Import &amp; launch</text>
+<text x="1294.6666666666667" y="1360" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">Create the custom image</text>
+<text x="1294.6666666666667" y="1390" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">and boot one OCI VM.</text>
+<rect x="1581.3333333333335" y="1240" width="290.6666666666667" height="180" rx="14" fill="white" stroke="#C6D8E6" stroke-width="2"/>
+<circle cx="1618.3333333333335" cy="1273" r="21" fill="#1978B8"/>
+<text x="1618.3333333333335" y="1281" font-size="24" fill="white" font-weight="700" text-anchor="middle">6</text>
+<text x="1653.3333333333335" y="1281" font-size="18" fill="#4E687B" font-weight="700" text-anchor="start">STAGE 6</text>
+<text x="1601.3333333333335" y="1323" font-size="25" fill="#18374C" font-weight="700" text-anchor="start">Validate</text>
+<text x="1601.3333333333335" y="1360" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">Check files and packages,</text>
+<text x="1601.3333333333335" y="1390" font-size="21" fill="#4E687B" font-weight="400" text-anchor="start">SQLite records and HTTP.</text>
+<rect x="48" y="1450" width="1824" height="92" rx="18" fill="#173957" stroke="none" stroke-width="2"/>
+<circle cx="95" cy="1495" r="22" fill="#23845D"/><path d="M 84 1495 L 92 1503 L 108 1486" fill="none" stroke="white" stroke-width="4" stroke-linecap="round"/>
+<text x="138" y="1489" font-size="28" fill="white" font-weight="700" text-anchor="start">Verified: matching packages, configuration, SQLite records and HTTP content.</text>
+<text x="138" y="1523" font-size="22" fill="#D5E7F4" font-weight="400" text-anchor="start">Full-image migration validated October 22, 2026. Single-VM demonstration architecture.</text>
+</g></svg>
