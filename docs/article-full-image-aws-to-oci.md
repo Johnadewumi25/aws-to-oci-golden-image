@@ -34,6 +34,18 @@ external managed services require their own migration plans.
 
 ## Architecture
 
+![Architecture of the completed AWS to OCI single boot-disk migration](images/aws-to-oci-architecture.png)
+
+[Download the diagram as PNG](images/aws-to-oci-architecture.png) ·
+[Editable SVG](images/aws-to-oci-architecture.svg)
+
+The diagram shows the implemented lab: one temporary EC2 builder and one OCI
+destination VM, with SQLite stored on the captured boot disk. The VMDK passes
+through private S3, the operator computer and private OCI Object Storage. VPC/VCN
+networking and identity are created separately. Load balancers, multiple target
+VMs and external managed databases would require additional infrastructure and
+migration steps.
+
 ```text
 Windows operator computer
   | local AWS and OCI CLI profiles
