@@ -1,9 +1,10 @@
 # Build in AWS, export once, import into OCI
 
-This is the full boot-disk migration workflow requested for the replacement lab.
-The previous website-file migration is historical and its resources were removed.
-This workflow builds Ubuntu once in AWS. OCI receives the exported AWS disk; it
-does not run a second Packer build.
+This workflow builds Ubuntu once in AWS. OCI receives the exported AWS boot disk
+and launches it as a new instance. Start with the [reader setup guide](sample-code.md)
+for the local inputs and infrastructure commands used below.
+
+![AWS to OCI full boot-disk migration architecture](images/aws-to-oci-architecture.png)
 
 ```text
 Ubuntu on AWS -> Packer provisions and reboots -> AWS AMI
