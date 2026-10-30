@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCES = [
     'README.md', 'LICENSE', '.gitignore', '.gitattributes',
     'docs/sample-code.md', 'docs/full-image-migration.md', 'docs/article-full-image-aws-to-oci.md', 'docs/full-image-validation.md',
+    'docs/images/aws-to-oci-architecture.svg', 'docs/images/aws-to-oci-architecture.png',
     'packer/full-image/image.pkr.hcl', 'packer/full-image/lab.example.pkrvars.hcl',
     'terraform/full-image/aws/main.tf', 'terraform/full-image/aws/lab.tfvars.example',
     'terraform/full-image/aws/.terraform.lock.hcl',
